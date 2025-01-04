@@ -1,24 +1,16 @@
 class Solution {
 public:
     int getLucky(string s, int k) {
-        int n = s.size();
-        unordered_map<char,int>mpp;
-        int i=1;
-        for(char ch='a';ch<='z';ch++){
-            mpp[ch] = i;
-            i++;
-        }
         string result;
-        for(int f=0;f<n;f++){
-            int num = mpp[s[f]];
-            result += to_string(num);
+        for(char ch:s){
+            result += to_string(ch-'a'+1);
         }
-        for(int l=1;l<=k;l++){
-            int ans = 0;
-            for(int j=0;j<result.size();j++){
-                ans += result[j] - '0';
+        while(k--){
+            int sum = 0;
+            for(char digit:result){
+                sum += digit-'0';
             }
-            result = to_string(ans);
+            result = to_string(sum);
         }
         return stoi(result);
     }
