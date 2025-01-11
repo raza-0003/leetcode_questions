@@ -11,19 +11,18 @@ public:
         for(int i=n-1;i>=0;i--){
             s2[n-i-1]=s[i];
         }
-        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
-        for(int i=0;i<=n;i++) dp[i][0] = 0;
-        for(int i=0;i<=n;i++) dp[0][i] = 0;
+        vector<int>prev(n+1,0),curr(n+1,0);
         for(int ind1=1;ind1<=n;ind1++){
             for(int ind2=1;ind2<=n;ind2++){
                 if(s[ind1-1] == s2[ind2-1]){
-                    dp[ind1][ind2] = 1 + dp[ind1-1][ind2-1];
+                    curr[ind2] = 1 + prev[ind2-1];
                 }
                 else{
-                    dp[ind1][ind2] = max(dp[ind1-1][ind2],dp[ind1][ind2-1]);
+                    curr[ind2] = max(prev[ind2],curr[ind2-1]);
                 }
             }
+            prev = curr;
         }
-        return dp[n][n];
+        return prev[n];
     }
 };
