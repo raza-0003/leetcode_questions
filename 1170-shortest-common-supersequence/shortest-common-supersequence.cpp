@@ -16,15 +16,12 @@ public:
                 }
             }
         }
-        int len = dp[n][m];
         int i = n;
         int j = m;
-        int index = len-1;
-        string ans="";
+          string ans="";
         while(i>0 && j>0){
             if(str1[i-1]==str2[j-1]){
                 ans += str2[j-1];
-                index--;
                 i--;
                 j--;
             }
