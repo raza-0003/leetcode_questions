@@ -2,19 +2,17 @@ class Solution {
 public:
     int minimumLength(string s) {
         int n = s.size();
-        unordered_map<char,int>mpp;
+        vector<int>freq(26,0);
         for(auto it:s){
-            mpp[it]++;
+            freq[it-'a']++;
         }
         int ans = 0;
-        for(auto it:mpp){
-            while(it.second>2){
+        for(int i=0;i<26;i++){
+            while(freq[i]>2){
                 ans += 2;
-                it.second -= 2;
+                freq[i] -= 2;
             }
         }
         return n-ans;
-    
-        
     }
 };
