@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int f(int ind1,int ind2,string s, string t,vector<vector<int>>&dp){
+    int f(int ind1,int ind2,string &s, string &t,vector<vector<int>>&dp){
         if(ind2<0) return 1;
         if(ind1<0) return 0;
         if(dp[ind1][ind2]!=-1) return dp[ind1][ind2];
