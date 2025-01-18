@@ -1,21 +1,23 @@
 class Solution {
 public:
-    int f(int index,int buy,vector<int>&prices,int trans,vector<vector<vector<int>>>&dp){
-        // lets talk about the base cases
-        if(index == prices.size() || trans == 2) return 0;
-        if(dp[index][buy][trans]!=-1) return dp[index][buy][trans];
-        int profit = 0;
-        if(buy){
-            profit = max(-prices[index] + f(index+1,0,prices,trans,dp), 0 + f(index+1,1,prices,trans,dp));
-        }
-        else{
-            profit = max(prices[index] + f(index+1,1,prices,trans+1,dp) , 0 + f(index+1,0,prices,trans,dp));
-        }
-        return dp[index][buy][trans] = profit;
-    }
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(3,-1)));
-        return f(0,1,prices,0,dp);
+        int profit = 0;
+        vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(3,0)));
+        for(int index = n-1;index>=0;index--){
+            for(int buy = 1;buy>=0;buy--){
+                for(int trans=2;trans>0;trans--){
+                    int profit = 0;
+                    if(buy){
+                        profit = max(-prices[index] + dp[index+1][0][trans], 0 + dp[index+1][1][trans]);
+                    }
+                    else{
+                        profit = max(prices[index] + dp[index+1][1][trans-1] , 0 + dp[index+1][0][trans]);
+                    }
+                    dp[index][buy][trans] = profit;
+                }
+            }
+        }
+        return dp[0][1][2];
     }
 };
