@@ -1,61 +1,55 @@
 class Solution {
 public:
-    bool parseBoolExpr(string expression) {
-        return parse(expression);
+    void evaluate(stack<char>&optr,stack<char>&operand){
+        char op = optr.top();
+        optr.pop();
+        bool ans;
+        if(op == '|'){
+            ans = false;
+            while(operand.top() != '('){
+                ans |= (operand.top() == 't');
+                operand.pop();
+            }
+            operand.pop();  // pop the '('
+        }
+        else if(op == '&'){
+            ans = true;
+            while(operand.top() != '('){
+                ans &= (operand.top() == 't');
+                operand.pop();
+            }
+            operand.pop();  // pop the '('
+        }
+        else if(op == '!'){
+            ans = (operand.top() == 't');
+            ans = !ans;
+            operand.pop(); // pop  the value;
+            operand.pop();  // pop the '('
+        }
+        if(ans) operand.push('t');
+        else{
+            operand.push('f');
+        }
     }
-    
-private:
-    bool parse(const string& expr) {
-        // Base case: single character boolean value
-        if (expr.length() == 1) {
-            return expr == "t";
-        }
-        
-        // Get the operator (first character)
-        char op = expr[0];
-        
-        // Remove operator and outer parentheses
-        string content = expr.substr(2, expr.length() - 3);
-        
-        // Handle NOT operator
-        if (op == '!') {
-            return !parse(content);
-        }
-        
-        // Split inner expressions
-        vector<string> subExprs;
-        int parenCount = 0;
-        string current;
-        
-        for (char c : content) {
-            if (c == ',' && parenCount == 0) {
-                subExprs.push_back(current);
-                current.clear();
-            } else {
-                if (c == '(') parenCount++;
-                if (c == ')') parenCount--;
-                current += c;
+
+    bool parseBoolExpr(string expression ) {
+        stack<char> optr,operand;
+        int ind = 0;
+        while(expression[ind]){
+            if(expression[ind] == '!' || expression[ind] == '&' || expression[ind] == '|'){
+                optr.push(expression[ind]);
             }
-        }
-        
-        // Add last expression
-        if (!current.empty()) {
-            subExprs.push_back(current);
-        }
-        
-        // Evaluate based on operator
-        if (op == '&') {
-            for (const string& sub : subExprs) {
-                if (!parse(sub)) return false;
+            else if(expression[ind] == 't' || expression[ind] == 'f' ){
+                operand.push(expression[ind]);
             }
-            return true;
-        } else if (op == '|') {
-            for (const string& sub : subExprs) {
-                if (parse(sub)) return true;
+            else if(expression[ind] == '(' ){
+                operand.push(expression[ind]);
             }
-            return false;
+            else if(expression[ind] == ')' ){
+                evaluate(optr,operand);
+            }
+            ind++;
         }
-        
-        return false;
+        return operand.top() == 't';
     }
 };
