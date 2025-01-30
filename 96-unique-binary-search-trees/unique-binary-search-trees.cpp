@@ -1,12 +1,17 @@
 class Solution {
 public:
-    int numTrees(int n) {
-        if(n<=1) return 1;
+    int f(int index,vector<int>&dp){
+        if(index<=1) return 1;
+        if(dp[index]!=-1) return dp[index];
         int ans = 0;
         // think i as a root node
-        for(int i=1;i<=n;i++){
-            ans += numTrees(i-1) * numTrees(n-i);
+        for(int i=1;i<=index;i++){
+            ans += f(i-1,dp) * f(index-i,dp);
         }
-        return ans;
+        return dp[index] = ans;
+    }
+    int numTrees(int n) {
+        vector<int>dp(n+1,-1);
+        return f(n,dp);
     }
 };
