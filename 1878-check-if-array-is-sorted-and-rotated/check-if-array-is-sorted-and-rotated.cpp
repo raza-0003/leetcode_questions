@@ -1,21 +1,16 @@
 class Solution {
 public:
     bool check(vector<int>& nums) {
-        vector<int>s_nums(nums);
-        sort(s_nums.begin(),s_nums.end());
-        if(nums == s_nums) return true;
+        int cnt = 0;
         int n = nums.size();
         for(int i=0;i<n;i++){
-            // i-->denotes array is denote by i positions
-            bool flag = true;
-            for(int j=0;j<n;j++){
-                if(s_nums[j] != nums[(i+j)%n]){
-                    flag = false;
-                    break;
-                } 
+            if(nums[i]>nums[(i+1)%n]){
+                cnt++;
             }
-            if(flag) return true;
+            if(cnt > 1){
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 };
