@@ -1,7 +1,7 @@
 class Solution {
 public:
     int maxDistance(string str, int k) {
-        vector<int> ans;
+        int ans = -1e9;
         int n = 0;
         int w = 0;
         int s = 0;
@@ -17,19 +17,15 @@ public:
             }else{
                 e++;
             }
-            int ma = max(n, s);
-            int mi = min(n, s);
-            int maa = max(w, e);
-            int mii = min(w, e);
-            int p = min(mi+mii, k);
-            ans.push_back(ma + maa -mi -mii + 2*p);
+            int maxNs = max(n, s);
+            int minNs = min(n, s);
+            int maxWe = max(w, e);
+            int minWe = min(w, e);
+            int p = min(minNs+minWe, k);
+            ans =max(ans,(maxNs + maxWe -minNs -minWe + 2*p));
             
         }
-        int res = 0;
-        for(int i : ans){
-            res = max(res, i);
-        }
-        return res;
+        return ans;
         
     }
 };
