@@ -11,13 +11,17 @@
  */
 class Solution {
 public:
+    map<pair<int,int>,vector<TreeNode*>>mpp;
     vector<TreeNode*> solve(int start,int end){
         if(start > end){
-            return {NULL};
+            return mpp[{start,end}] = {NULL};
         }
         if(start == end){
             TreeNode* root = new TreeNode(end);
-            return {root};
+            return mpp[{start,end}] = {root};
+        }
+        if(mpp.find({start,end}) != mpp.end()){
+            return mpp[{start,end}];
         }
         vector<TreeNode*>result;
         for(int i=start;i<=end;i++){
@@ -32,7 +36,7 @@ public:
                 }
             }
         }
-        return result;
+        return mpp[{start,end}] = result;
     }
     vector<TreeNode*> generateTrees(int n) {
         return solve(1,n);
