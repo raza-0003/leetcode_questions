@@ -1,23 +1,21 @@
 class Solution {
 public:
-    int f(int index,vector<int>& nums,vector<int>&dp){
-        if(index >= nums.size()-1) return 0;
-        if(dp[index]!=-1) return dp[index];
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>dp(n,1e9);
+        dp[n-1] = 0;
         int minSteps = 1e9;
-        for(int j=1;j<=nums[index];j++){ // try the all possible jumps
-            int jump = f(index+j,nums,dp);
-            if(jump != 1e9){
-                minSteps = min(minSteps,1+jump);
-            }
+        for(int index=n-2;index>=0;index--){
+             int minSteps = 1e9;
+             for(int j=1;j<=nums[index] && index+j <n ;j++){ // try the all possible jumps
+                if(dp[index + j] != 1e9){
+                    minSteps = min(minSteps,1+ dp[index+j]);
+                }
+             }
+             dp[index] = minSteps;
 
         }
-        return dp[index] = minSteps;
-
-    }
-    int jump(vector<int>& nums) {
-       int n = nums.size();
-       vector<int>dp(n,-1);
-       return f(0,nums,dp);
+        return dp[0];
         
     }
 };
