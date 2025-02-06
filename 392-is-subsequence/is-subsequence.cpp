@@ -1,24 +1,21 @@
 class Solution {
 public:
-    bool isSubsequence(string s, string t) {
-        int n = s.size();
-        int m = t.size();
-        if(n>m) return false;
-        if(n == m ) return s==t;
-        int ls = 0;
-        int tp = 0;
-        while(ls < n && tp < m){
-            if(s[ls] == t[tp]){
-                ls++;
-                tp++;
-            }
-            else{
-                tp++;
-            }
+    bool f(int inds,int indt,string s, string t){
+        bool ans = false;
+        if(inds == s.size()){
+            return  true;
         }
-        if(ls == n) return true;
-        return false;
+        if(indt >= t.size()) return false;
+        if(s[inds] == t[indt]){
+            ans =  f(inds+1,indt+1,s,t);
+        }
+        else{
+            ans = f(inds,indt+1,s,t);
+        }
+        return ans;
 
-
+    }
+    bool isSubsequence(string s, string t) {
+        return f(0,0,s,t);
     }
 };
