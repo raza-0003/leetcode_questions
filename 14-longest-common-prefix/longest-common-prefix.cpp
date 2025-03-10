@@ -12,7 +12,7 @@ public:
         while(i<first.size() && i<last.size() && first[i] == last[i]){
             i++;
         }
-
+        // jo common element hai first and last element me use print kar de
         string ans="";
         for(int a=0;a<i;a++){
             ans += last[a];
