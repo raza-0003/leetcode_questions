@@ -3,6 +3,7 @@ public:
     bool isPalindrome(string s) {
         // transforming into the lower case
         transform(s.begin(),s.end(),s.begin(),::tolower);
+        // remove all special character from the string
         string result;
         for(char ch:s){
             if(isalnum(ch)){
