@@ -1,19 +1,17 @@
 class Solution {
 public:
     bool checkAlmostEquivalent(string word1, string word2) {
-        int n = word1.size();
-        unordered_map<char,int>freq1;
-        for(auto it:word1){
-            freq1[it]++;
+        vector<int>freq1(26,0),freq2(26,0);
+        for(char ch:word1){
+            freq1[ch-'a']++;
         }
-        unordered_map<char,int>freq2;
-        for(auto it:word2){
-            freq2[it]++;
+        for(char ch:word2){
+            freq2[ch-'a']++;
         }
         bool ans = true;
         for(char ch='a';ch<='z';ch++){
-            if(abs(freq1[ch]-freq2[ch]) > 3){
-                ans=false;
+            if(abs(freq1[ch-'a']-freq2[ch-'a'])>3){
+                ans = false;
                 break;
             }
         }
