@@ -1,6 +1,7 @@
 class Solution {
 public:
     const int MOD = 1000000007;
+    // 1E9 MEANS 1 KE BAAD 9 DIGIT 
     long long mode_exp(long long base,long long exp,long long mod){
         long long result = 1;
         while(exp>0){
