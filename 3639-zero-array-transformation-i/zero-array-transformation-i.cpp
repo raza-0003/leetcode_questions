@@ -1,11 +1,14 @@
 class Solution {
 public:
     bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
-        vector<int> diff(nums.size() + 1, 0);
+        int n = nums.size();
+        vector<int> diff(n+1, 0);
         for (const auto& q : queries) {
-            diff[q[0]]++; // diff[l]++
-            if (q[1] + 1 < nums.size())
-                diff[q[1] + 1]--; // diff[r + 1]--
+            int l = q[0];
+            int r = q[1];
+            diff[l]++; 
+            if (r + 1 < n)
+                diff[r + 1]--; 
         }
 
         int cnt = 0;
