@@ -8,9 +8,9 @@ public:
                 open++;
             }
             else{   // ch=')'
-                if(open > 0) open--;
+                if(open > 0) open--; // match one '('
                 else{
-                    insertions++;
+                    insertions++;   //Nedd one '(' before the ch=')'
                 }
             }
         }
