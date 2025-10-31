@@ -5,10 +5,8 @@ public:
         vector<int>ans;
         for(auto it:nums){
             mpp[it]++;
-        }
-        for(auto [num,freq]:mpp){
-            if(freq == 2){
-                ans.push_back(num);
+            if(mpp[it] == 2){
+                ans.push_back(it);
             }
         }
         return ans;
