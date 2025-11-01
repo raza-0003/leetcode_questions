@@ -11,10 +11,7 @@ public:
         ListNode* curr = head;
         while (curr) {
             if (set_to_delete.count(curr->val)) {
-                ListNode* temp = curr;
-                // Advance 'curr' BEFORE deletion.
                 curr = curr->next;
-                // Unlink 'temp'.
                 prev->next = curr;
             } else {
                 prev = curr;
