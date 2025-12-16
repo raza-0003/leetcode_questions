@@ -8,12 +8,9 @@ public:
         for(int i=1;i<n;i++){
             if(nums[i-1] == nums[i]){
                 dup_num = nums[i];
-                miss_num = miss_num ^ nums[i-1];
                 i++;
             }
-            else{
-                miss_num = miss_num ^ nums[i-1];
-            }
+            miss_num = miss_num ^ nums[i-1];
         }
         if(nums[n-1] != dup_num) miss_num = miss_num ^ nums[n-1];
         for(int i=1;i<=n;i++){
