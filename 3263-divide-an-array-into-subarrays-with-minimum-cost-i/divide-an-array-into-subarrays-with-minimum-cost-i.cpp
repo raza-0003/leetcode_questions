@@ -2,15 +2,18 @@ class Solution {
 public:
     int minimumCost(vector<int>& nums) {
         int n = nums.size();
-        int min_cost = 1e9;
-        for(int i=0;i<n-2;i++){ 
-            for(int j=i+1;j<n-1;j++){
-                for(int k=j+1;k<n;k++){
-                    int cost =nums[0] + nums[j] + nums[k];
-                    min_cost = min(cost,min_cost);
-                }
+        int first = INT_MAX;
+        int second = INT_MAX;
+        for(int i=1;i<n;i++){
+            int x = nums[i];
+            if(x < first){
+                second = first;
+                first = x;
+            }
+            else if(x < second){
+                second = x;
             }
         }
-        return min_cost;
+        return nums[0] + first + second;
     }
 };
