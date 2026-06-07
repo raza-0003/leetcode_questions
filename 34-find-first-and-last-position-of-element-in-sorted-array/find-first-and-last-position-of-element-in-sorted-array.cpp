@@ -39,7 +39,5 @@ public:
         ans.push_back(f_ind);
         ans.push_back(l_ind);
         return ans;
-
-        
     }
 };
