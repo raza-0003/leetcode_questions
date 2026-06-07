@@ -13,11 +13,23 @@ public:
                 return nums[mid];
             }
             // note: 1) if mid is odd --> left me and right me odd element honge. 2) if mid is even then left and right me even elems honge
-            else if((mid % 2 == 0 && nums[mid] == nums[mid-1]) || (mid % 2 == 1 && nums[mid] == nums[mid+1])){
-                high = mid - 1;
+            else if(mid % 2 == 1){
+                // left and right me odd element honge
+                if(nums[mid] == nums[mid-1]){
+                    low = mid +1;
+                }
+                else{
+                    high = mid-1;
+                }
             }
             else{
-                low = mid + 1;
+                // left and right me even elements
+                if(nums[mid] == nums[mid-1]){
+                    high = mid-1;
+                }
+                else{
+                    low = mid +1;
+                }
             }
         }
         return -1;
