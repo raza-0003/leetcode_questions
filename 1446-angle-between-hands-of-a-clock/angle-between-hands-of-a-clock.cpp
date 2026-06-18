@@ -1,12 +1,9 @@
 class Solution {
 public:
     double angleClock(int hour, int minutes) {
-        double angle = 0;
-        angle += minutes * 6;
-        double hour_ang = 0;
-        hour_ang += hour * 30;
-        double hr = double(minutes) * double(0.5);
-        double ans = abs(angle-hour_ang-hr);
+        double hr = 30 * hour + double(minutes) * 0.5;
+        double mints = 6 * double(minutes);
+        double ans = abs(hr-mints);
         return min(ans,360-ans);
     }
 };
