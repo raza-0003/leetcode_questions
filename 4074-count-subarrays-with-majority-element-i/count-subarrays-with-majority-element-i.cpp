@@ -2,10 +2,6 @@ class Solution {
 public:
     int countMajoritySubarrays(vector<int>& nums, int target) {
         int n = nums.size();
-        unordered_map<int,int>mpp;
-        for(auto it:nums){
-            mpp[it]++;
-        }
         int cnt2 = 0;
         for(int i=0;i<n;i++){
             vector<int>temp;
