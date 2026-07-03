@@ -3,34 +3,23 @@ public:
     int n;
 
     bool find(int limit, unordered_map<int, vector<pair<int,int>>>& adj,
-              vector<bool>& online, long long k){
+              vector<bool>& online, vector<int>& topoSort, long long k){
 
-        priority_queue<pair<long long,int>,vector<pair<long long,int>>,
-        greater<pair<long long,int>>> pq;
         vector<long long> dist(n, LLONG_MAX);
         dist[0] = 0;
-        pq.push({0,0});
-        while(!pq.empty()){
-            auto curr = pq.top();
-            pq.pop();
-            long long currCost = curr.first;
-            int node = curr.second;
 
-            if(currCost > dist[node]) continue;
+        for(int node : topoSort){
+            if(dist[node] == LLONG_MAX) continue;
 
             for(auto &nxt : adj[node]){
                 int nxtNode = nxt.first;
                 int cst = nxt.second;
 
                 if(cst < limit) continue;
+
                 if(nxtNode != n-1 && !online[nxtNode]) continue;
 
-                long long newCost = currCost + cst;
-
-                if(newCost < dist[nxtNode]){
-                    dist[nxtNode] = newCost;
-                    pq.push({newCost, nxtNode});
-                }
+                dist[nxtNode] = min(dist[nxtNode], dist[node] + cst);
             }
         }
 
@@ -41,6 +30,8 @@ public:
         n = online.size();
         unordered_map<int, vector<pair<int,int>>> adj;
 
+        vector<int> indegree(n, 0);
+
         int low = INT_MAX;
         int high = 0;
 
@@ -49,18 +40,45 @@ public:
             int v = e[1];
             int cst = e[2];
 
-            adj[u].push_back({v,cst});
+            adj[u].push_back({v, cst});
+            indegree[v]++;
 
-            low = min(low,cst);
-            high = max(high,cst);
+            low = min(low, cst);
+            high = max(high, cst);
+        }
+
+        queue<int> q;
+        vector<int> topoSort;
+
+        for(int i=0;i<n;i++){
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+
+            topoSort.push_back(node);
+
+            for(auto &ngbr : adj[node]){
+                int nxtNode = ngbr.first;
+
+                indegree[nxtNode]--;
+
+                if(indegree[nxtNode] == 0){
+                    q.push(nxtNode);
+                }
+            }
         }
 
         int res = -1;
 
         while(low <= high){
-            int mid = low + (high-low)/2;
+            int mid = low + (high - low)/2;
 
-            if(find(mid,adj,online,k)){
+            if(find(mid, adj, online, topoSort, k)){
                 res = mid;
                 low = mid + 1;
             }
