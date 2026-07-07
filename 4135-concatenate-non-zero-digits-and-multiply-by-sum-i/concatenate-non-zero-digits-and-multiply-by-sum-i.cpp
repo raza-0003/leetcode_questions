@@ -1,24 +1,18 @@
 class Solution {
 public:
     long long sumAndMultiply(int n) {
+        int sum = 0;
+        int r = 1;
         long long x = 0;
-        long long sum = 0;
         while(n){
             int d = n % 10;
-            if(d != 0){
-                x = x * 10 + d;
+            if( d != 0){
                 sum += d;
+                x = r * d + x;
+                r = r * 10;
             }
-            n = n / 10;
+            n = n / 10; 
         }
-        long long x1 = 0;
-        while(x){
-            int d = x % 10;
-            x1 = x1 * 10 + d;
-            x = x / 10;
-        }
-        return 1LL*x1*sum;
-        
-
+        return sum * x;
     }
 };
