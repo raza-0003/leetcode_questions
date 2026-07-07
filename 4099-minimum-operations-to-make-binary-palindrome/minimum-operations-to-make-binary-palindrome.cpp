@@ -12,48 +12,21 @@ public:
         return x == n;
     }
     vector<int> minOperations(vector<int>& nums) {
-        vector<int>ans(5002,0);
-        for(int i=0;i<=5001;i++){
-            if(isPalindrome(i)){
-                ans[i] = 1;
-            }
-        }
-        vector<int>nearOne(5002);
-        int lasti = -1;
-        for(int i=0;i<=5001;i++){
-            if(ans[i] == 1){
-                nearOne[i] = i;
-                lasti = i;
-            }
-            else if(ans[i] == 0){
-                nearOne[i] = lasti;
-            }
-        }
-        int last2i = -1;
-        for(int i=5001;i>=0;i--){
-            if(ans[i] == 1){
-                last2i = i;
-            }
-            else if(last2i != -1){
-                if(nearOne[i] == -1){
-                    nearOne[i] = last2i;
+        int n = nums.size();
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++) {
+            int k = 0;
+            while(true) {
+                if (isPalindrome(nums[i] - k)) {
+                    ans[i] = k;
+                    break;
+                } else if (isPalindrome(nums[i] + k)) {
+                    ans[i] = k;
+                    break;
                 }
-                else if(last2i - i < i - nearOne[i]){
-                    nearOne[i] = last2i;
-                }
-                
+                k++;
             }
         }
-        vector<int>fans;
-        for(int i=0;i<nums.size();i++){
-            if(ans[nums[i]] == 1){
-                fans.push_back(0);
-            }
-            else if(ans[nums[i]] == 0){
-                fans.push_back(abs(nums[i] - nearOne[nums[i]]));
-            }
-        }
-        return fans;
-
+        return ans;
     }
 };
