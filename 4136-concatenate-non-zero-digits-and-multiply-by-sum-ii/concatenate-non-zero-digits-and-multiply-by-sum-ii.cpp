@@ -1,46 +1,50 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
 public:
-    static const int MOD = 1e9 + 7;
     vector<int> sumAndMultiply(string s, vector<vector<int>>& queries) {
-        vector<int> pos;
-        vector<int> val;
-        for (int i = 0; i < s.size(); i++) {
-            if (s[i] != '0') {
-                pos.push_back(i);
-                val.push_back(s[i] - '0');
-            }
-        }
-        int m = val.size();
-        vector<long long> prefSum(m + 1, 0);
-        vector<long long> prefNum(m + 1, 0);
-        vector<long long> pow10(m + 1, 1);
-        for (int i = 0; i < m; i++) {
-            prefSum[i + 1] = prefSum[i] + val[i];
-            prefNum[i + 1] = (prefNum[i] * 10 + val[i]) % MOD;
-            pow10[i + 1] = (pow10[i] * 10) % MOD;
-        }
-        vector<int> ans;
-        for (auto &q : queries) {
-            int l = q[0];
-            int r = q[1];
-            int L = lower_bound(pos.begin(), pos.end(), l) - pos.begin();
-            int R = upper_bound(pos.begin(), pos.end(), r) - pos.begin() - 1;
-            if (L > R) {
-                ans.push_back(0);
-                continue;
-            }
-            int len = R - L + 1;
-            long long sum = prefSum[R + 1] - prefSum[L];
-            long long x =
-                (prefNum[R + 1] -
-                 prefNum[L] * pow10[len] % MOD +
-                 MOD) % MOD;
+        int n = s.size();
+        int m = queries.size();
+        long long MOD = 1e9 + 7;
 
-            ans.push_back((x * sum) % MOD);
+        vector<long long> prefSum(n + 1, 0);
+        vector<long long> prefVal(n + 1, 0);
+        vector<int> prefCnt(n + 1, 0);
+        vector<long long> power(n + 1, 1);
+
+        for(int i = 1; i <= n; i++){
+            power[i] = (power[i - 1] * 10) % MOD;
         }
-        return ans;
+
+        for(int i = 0; i < n; i++){
+            int d = s[i] - '0';
+
+            prefSum[i + 1] = prefSum[i] + d;
+            prefCnt[i + 1] = prefCnt[i] + (d != 0);
+
+            if(d == 0){
+                prefVal[i + 1] = prefVal[i];
+            }
+            else{
+                prefVal[i + 1] = (prefVal[i] * 10 + d) % MOD;
+            }
+        }
+
+        vector<int> result(m);
+
+        for(int i = 0; i < m; i++){
+            int l = queries[i][0];
+            int r = queries[i][1];
+
+            int len = prefCnt[r + 1] - prefCnt[l];
+
+            long long start = prefVal[l];
+            long long end = prefVal[r + 1];
+
+            long long x = (end - (start * power[len]) % MOD + MOD) % MOD;
+            long long sum = prefSum[r + 1] - prefSum[l];
+
+            result[i] = (x * sum) % MOD;
+        }
+
+        return result;
     }
 };
