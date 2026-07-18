@@ -8,7 +8,7 @@ public:
             mini = min(mini,nums[i]);
             maxi = max(maxi,nums[i]);
         }
-        while(mini != 0){
+        while(mini){
             int rem = maxi % mini;
             maxi = mini;
             mini = rem;
