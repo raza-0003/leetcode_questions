@@ -1,15 +1,9 @@
 class Solution {
 public:
     int maxProduct(int n) {
-        int mul = 1;
-        vector<int>ans;
-        while(n){
-            int rem = n % 10;
-            ans.push_back(rem);
-            n = n / 10;
-        }
-        sort(ans.begin(),ans.end());
-        int m = ans.size();
-        return ans[m-1] * ans[m-2];
+        string s = to_string(n);
+        sort(s.rbegin(),s.rend());
+        int ans = (s[0] - '0') * (s[1] - '0');
+        return ans;
     }
 };
