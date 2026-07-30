@@ -5,18 +5,7 @@ public:
         if(n <= 8) return n;
         int ans = 0;
         for(int i=1;i<=n;i++){
-            if(i<=8){
-                ans += 1;
-            }
-            else if(i > 8 && i <= 16){
-                ans += 2;
-            }
-            else if(i > 16 && i <= 24){
-                ans += 3;
-            }
-            else{
-                ans += 4;
-            }
+            ans += ((i-1)/ 8) + 1;
         }
         return ans;
     }
