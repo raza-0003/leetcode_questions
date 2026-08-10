@@ -1,43 +1,42 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    ListNode* RotateLL(ListNode* head){
-        if(head == nullptr || head->next == nullptr){
-            return head;
-        }
-        ListNode* temp = head;
-        while(temp->next->next != nullptr){
-            temp = temp->next;
-        }
-        ListNode* tail = temp->next;
-        temp->next = nullptr;
-        tail->next = head;
-        return tail;
-    }
     ListNode* rotateRight(ListNode* head, int k) {
-        if(head == nullptr) return head;
-        ListNode* temp = head;
-        int n = 0;
-        while(temp){
+
+        if (head == nullptr || head->next == nullptr || k == 0)
+            return head;
+
+        // Find length and tail
+        int n = 1;
+        ListNode* tail = head;
+
+        while (tail->next != nullptr) {
+            tail = tail->next;
             n++;
-            temp=temp->next;
         }
-        temp = head;
-        k = k % n; 
-        for(int i=0;i<k;i++){
-            ListNode* newHead = RotateLL(temp);
-            temp = newHead;
+
+        // Remove unnecessary rotations
+        k = k % n;
+
+        if (k == 0)
+            return head;
+
+        // Make list circular
+        tail->next = head;
+
+        // Find new tail
+        int steps = n - k-1;
+        ListNode* newTail = head;
+
+        for (int i = 0; i < steps; i++) {
+            newTail = newTail->next;
         }
-        return temp;
-        
+
+        // New head
+        ListNode* newHead = newTail->next;
+
+        // Break the circle
+        newTail->next = nullptr;
+
+        return newHead;
     }
 };
