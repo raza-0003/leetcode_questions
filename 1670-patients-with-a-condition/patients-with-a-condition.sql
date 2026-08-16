@@ -1,6 +1,4 @@
-SELECT patient_id,
-        patient_name,
-        conditions
+SELECT *
     FROM Patients
     WHERE conditions IN(
         SELECT conditions
