@@ -17,8 +17,6 @@ public:
             ans.push_back(minH.top().second);
             minH.pop();
         }
-        return ans;
-        
-        
+        return ans;  
     }
 };
