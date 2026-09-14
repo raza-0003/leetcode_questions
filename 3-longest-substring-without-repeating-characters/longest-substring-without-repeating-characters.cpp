@@ -2,20 +2,21 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int n = s.size();
-        int left = 0;
-        int maxLen = 0;
-        // creating the unordered_set to evaluate the distinct digit
-        unordered_set<char>charSet;
-        for(int right = 0; right<n;right++){
-            // keep checking until we got the distict charsets
-            while(charSet.find(s[right]) != charSet.end()){
-                charSet.erase(s[left]);
-                left++;
+        unordered_map<char,int>mpp;
+        int i = 0;
+        int j = 0;
+        int maxi = 0;
+        while(j < n){
+            mpp[s[j]]++;
+            while(j-i+1 > mpp.size()){
+                mpp[s[i]]--;
+                if(mpp[s[i]] == 0) mpp.erase(s[i]);
+                i++;
             }
-            //adding distinct char into the charSet
-            charSet.insert(s[right]);
-            maxLen = max(maxLen,right-left+1);
+            maxi = max(maxi,j-i+1);
+            j++;
+
         }
-        return maxLen;
+        return maxi;
     }
 };
